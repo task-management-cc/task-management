@@ -20,14 +20,13 @@ export default function Task(props) {
     onDelete,
   } = props;
 
-  // Function to get color based on priority
   const getPriorityColor = (priority) => {
-    switch (priority.toLowerCase()) {
-      case "high":
+    switch (priority) {
+      case 1:
         return "error";
-      case "medium":
+      case 2:
         return "warning";
-      case "low":
+      case 3:
         return "success";
       default:
         return "default";
@@ -35,15 +34,42 @@ export default function Task(props) {
   };
 
   const getCardStyle = (status) => {
-    switch (status.toLowerCase()) {
-      case "yet to start":
+    switch (status) {
+      case 1:
         return { backgroundColor: "#e0e0e0", color: "#000" }; // Grey for yet to start
-      case "in progress":
+      case 2:
         return { backgroundColor: "#ffecb3", color: "#000" }; // Yellow for in progress
-      case "completed":
+      case 3:
         return { backgroundColor: "#c8e6c9", color: "#000" }; // Green for completed
       default:
         return { backgroundColor: "#fff", color: "#000" }; // Default white
+    }
+  };
+
+  const getStatusText = (statusNumber) => {
+    switch (statusNumber) {
+      case 1:
+        return "Yet to Start";
+      case 2:
+        return "In Progress";
+      case 3:
+        return "Completed";
+      default:
+        return "Unknown Status";
+    }
+  };
+
+  // Function to map priority number to text
+  const getPriorityText = (priorityNumber) => {
+    switch (priorityNumber) {
+      case 1:
+        return "High";
+      case 2:
+        return "Medium";
+      case 3:
+        return "Low";
+      default:
+        return "Unknown Priority";
     }
   };
 
@@ -64,10 +90,10 @@ export default function Task(props) {
           alignItems="center"
           sx={{ marginY: 2 }}
         >
-          <Chip label={`Status: ${status}`} color="primary" />
+          <Chip label={`Status: ${getStatusText(status)}`} color="primary" />
           <Chip
             icon={<PriorityHighIcon />}
-            label={`Priority: ${priority}`}
+            label={`Priority: ${getPriorityText(priority)}`}
             color={getPriorityColor(priority)}
           />
         </Stack>
