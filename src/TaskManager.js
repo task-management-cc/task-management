@@ -12,9 +12,8 @@ function TaskManager({ email }) {
   };
 
   const fetchTasks = () => {
-    const url = `http://localhost:4000/tasks?email=${encodeURIComponent(
-      email
-    )}`;
+    const apiUrl = process.env.REACT_APP_API_URL;
+    const url = apiUrl + `/tasks?email=${encodeURIComponent(email)}`;
     axios
       .get(url)
       .then((response) => {

@@ -102,9 +102,9 @@ export default function Task(props) {
   };
 
   const handleConfirmDelete = () => {
-    // Call the delete API here
+    const apiUrl = process.env.REACT_APP_API_URL;
     axios
-      .delete(`http://localhost:4000/tasks/${task_id}`)
+      .delete(apiUrl + `/tasks/${task_id}`)
       .then(() => {
         handleOpenSnackbar();
         if (onDelete) {

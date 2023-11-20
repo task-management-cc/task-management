@@ -93,9 +93,10 @@ export default function CreateTask({
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
+      const apiUrl = process.env.REACT_APP_API_URL;
       const url = isEditMode
-        ? `http://localhost:4000/tasks/${task.task_id}`
-        : "http://localhost:4000/tasks";
+        ? apiUrl + `/tasks/${task.task_id}`
+        : apiUrl + "/tasks";
       const method = isEditMode ? axios.put : axios.post;
       await method(url, taskData);
 
@@ -222,7 +223,7 @@ export default function CreateTask({
                   onChange={handleInputChange}
                 />
                 <Button variant="contained" color="primary" type="submit">
-                  Create Task
+                  {isEditMode ? "Update Task" : "Create Task"}
                 </Button>
               </Stack>
             </form>
