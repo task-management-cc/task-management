@@ -5,6 +5,11 @@ import CreateTask from "./CreateTask";
 
 function TaskManager({ email }) {
   const [tasks, setTasks] = useState([]);
+  const [editTask, setEditTask] = useState(null);
+
+  const handleEditTask = (task) => {
+    setEditTask(task); // Set the task to be edited
+  };
 
   const fetchTasks = () => {
     const url = `http://localhost:4000/tasks?email=${encodeURIComponent(
@@ -13,7 +18,6 @@ function TaskManager({ email }) {
     axios
       .get(url)
       .then((response) => {
-        console.log(response.data);
         setTasks(response.data);
       })
       .catch((error) => console.error("Error fetching tasks:", error));
@@ -25,12 +29,29 @@ function TaskManager({ email }) {
 
   const handleTaskUpdate = () => {
     fetchTasks();
+    setEditTask(null);
   };
 
   return (
     <div>
-      <CreateTask onTaskCreated={handleTaskUpdate} email={email} />
-      <Tasks tasks={tasks} />
+      {editTask ? (
+        <CreateTask
+          onTaskCreated={handleTaskUpdate}
+          email={email}
+          task={editTask}
+          isEditMode={true}
+        />
+      ) : (
+        <>
+          <CreateTask onTaskCreated={fetchTasks} email={email} />
+          <Tasks
+            tasks={tasks}
+            onDelete={handleTaskUpdate}
+            onEdit={handleEditTask}
+            onTaskUpdated={handleTaskUpdate}
+          />
+        </>
+      )}
     </div>
   );
 }

@@ -2,11 +2,28 @@ import * as React from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import { CardActions, Chip, LinearProgress, Stack, Fab } from "@mui/material";
+import {
+  CardActions,
+  Chip,
+  LinearProgress,
+  Stack,
+  Fab,
+  Tooltip,
+} from "@mui/material";
 import PriorityHighIcon from "@mui/icons-material/PriorityHigh";
 import EventNoteIcon from "@mui/icons-material/EventNote";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import {
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  Button,
+  Snackbar,
+} from "@mui/material";
+import axios from "axios";
 
 export default function Task(props) {
   const {
@@ -15,10 +32,13 @@ export default function Task(props) {
     status,
     priority,
     progress,
-    dueDate,
+    due_date,
+    task_id,
     onEdit,
     onDelete,
   } = props;
+  const [openDeleteDialog, setOpenDeleteDialog] = React.useState(false);
+  const [openSnackbar, setOpenSnackbar] = React.useState(false);
 
   const getPriorityColor = (priority) => {
     switch (priority) {
@@ -73,6 +93,57 @@ export default function Task(props) {
     }
   };
 
+  const handleDeleteClick = () => {
+    setOpenDeleteDialog(true);
+  };
+
+  const handleCloseDeleteDialog = () => {
+    setOpenDeleteDialog(false);
+  };
+
+  const handleConfirmDelete = () => {
+    // Call the delete API here
+    axios
+      .delete(`http://localhost:4000/tasks/${task_id}`)
+      .then(() => {
+        handleOpenSnackbar();
+        if (onDelete) {
+          onDelete();
+        }
+      })
+      .catch((error) => {
+        console.error("Error deleting task:", error);
+        // Handle error
+      });
+
+    setOpenDeleteDialog(false);
+  };
+
+  const handleOpenSnackbar = () => {
+    setOpenSnackbar(true);
+  };
+
+  const handleCloseSnackbar = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setOpenSnackbar(false);
+  };
+
+  const handleEditClick = () => {
+    if (onEdit) {
+      onEdit({
+        title,
+        description,
+        status,
+        priority,
+        progress,
+        due_date,
+        task_id,
+      });
+    }
+  };
+
   return (
     <Card
       sx={{ maxWidth: 345, margin: 2, boxShadow: 3, ...getCardStyle(status) }}
@@ -103,7 +174,7 @@ export default function Task(props) {
           sx={{ display: "flex", alignItems: "center", gap: 1 }}
         >
           <EventNoteIcon />
-          Due Date: {dueDate}
+          Due Date: {due_date}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ marginTop: 2 }}>
           Progress:
@@ -115,14 +186,53 @@ export default function Task(props) {
         />
       </CardContent>
       <CardActions>
-        <Fab color="secondary" aria-label="edit" size="small" onClick={onEdit}>
-          <EditIcon />
-        </Fab>
+        <Tooltip title="Edit">
+          <Fab
+            color="secondary"
+            aria-label="edit"
+            size="small"
+            onClick={handleEditClick}
+          >
+            <EditIcon />
+          </Fab>
+        </Tooltip>
 
-        <Fab color="error" aria-label="delete" size="small" onClick={onDelete}>
-          <DeleteIcon />
-        </Fab>
+        <Tooltip title="Delete">
+          <Fab
+            color="error"
+            aria-label="delete"
+            size="small"
+            onClick={handleDeleteClick}
+          >
+            <DeleteIcon />
+          </Fab>
+        </Tooltip>
       </CardActions>
+      <Dialog
+        open={openDeleteDialog}
+        onClose={handleCloseDeleteDialog}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{"Confirm Delete"}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Are you sure you want to delete this task?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseDeleteDialog}>Cancel</Button>
+          <Button onClick={handleConfirmDelete} color="primary" autoFocus>
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        message="Task successfully deleted"
+      />
     </Card>
   );
 }

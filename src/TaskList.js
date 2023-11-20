@@ -15,7 +15,7 @@ export default function Task(props) {
     status,
     priority,
     progress,
-    dueDate,
+    due_date,
     onEdit,
     onDelete,
   } = props;
@@ -77,7 +77,7 @@ export default function Task(props) {
           sx={{ display: "flex", alignItems: "center", gap: 1 }}
         >
           <EventNoteIcon />
-          Due Date: {dueDate}
+          Due Date: {due_date}
         </Typography>
         <Typography variant="body2" color="text.primary" sx={{ marginTop: 2 }}>
           Progress:

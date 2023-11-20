@@ -35,7 +35,7 @@ export default function App() {
           <CssBaseline />
           <Header logout={signOut} />
           <Container>
-            <h1>Hello, {user.username}</h1>
+            <h1>Hello, {user.attributes.name}</h1>
             <TaskManager email={user.username} />
           </Container>
         </React.Fragment>

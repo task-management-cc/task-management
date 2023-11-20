@@ -18,8 +18,12 @@ import AddIcon from "@mui/icons-material/Add";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";
 
-export default function CreateTask({ onTaskCreated, email }) {
-  console.log(email);
+export default function CreateTask({
+  onTaskCreated,
+  email,
+  task = null,
+  isEditMode = false,
+}) {
   const [open, setOpen] = React.useState(false);
   const [taskData, setTaskData] = React.useState({
     title: "",
@@ -27,9 +31,25 @@ export default function CreateTask({ onTaskCreated, email }) {
     status: 0,
     priority: 0,
     progress: 0,
-    dueDate: "",
+    due_date: "",
     email: email,
   });
+
+  React.useEffect(() => {
+    if (isEditMode && task) {
+      setTaskData({
+        title: task.title,
+        description: task.description,
+        status: task.status,
+        priority: task.priority,
+        progress: task.progress,
+        due_date: task.due_date ? task.due_date.split("T")[0] : "",
+        email: email,
+      });
+      setOpen(true); // Open the dialog in edit mode
+    }
+  }, [task, isEditMode, email]);
+
   const [scroll, setScroll] = React.useState("paper");
 
   const handleClickOpen = (scrollType) => () => {
@@ -39,6 +59,20 @@ export default function CreateTask({ onTaskCreated, email }) {
 
   const handleClose = () => {
     setOpen(false);
+    if (!isEditMode) {
+      setTaskData({
+        title: "",
+        description: "",
+        status: 0,
+        priority: 0,
+        progress: 0,
+        due_date: "",
+        email: email,
+      });
+    }
+    if (onTaskCreated) {
+      onTaskCreated();
+    }
   };
 
   const handleStatusChange = (event) => {
@@ -59,25 +93,32 @@ export default function CreateTask({ onTaskCreated, email }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log(taskData);
-      await axios.post("http://localhost:4000/tasks", taskData);
-      handleClose();
-      // Optionally reset form or provide user feedback
+      const url = isEditMode
+        ? `http://localhost:4000/tasks/${task.task_id}`
+        : "http://localhost:4000/tasks";
+      const method = isEditMode ? axios.put : axios.post;
+      await method(url, taskData);
+
       setTaskData({
         title: "",
         description: "",
-        status: "",
-        priority: "",
+        status: 0,
+        priority: 0,
         progress: 0,
-        dueDate: "",
+        due_date: "",
         email: email,
       });
+      handleClose();
       if (onTaskCreated) {
         onTaskCreated();
       }
     } catch (error) {
-      console.error("Error creating task:", error);
-      // Handle error (e.g., show error message)
+      console.error(
+        "Error:",
+        isEditMode ? "updating" : "creating",
+        "task:",
+        error
+      );
     }
   };
 
@@ -161,7 +202,6 @@ export default function CreateTask({ onTaskCreated, email }) {
                   </Select>
                 </FormControl>
 
-                {/* Progress Slider */}
                 <Typography gutterBottom>Progress</Typography>
                 <Slider
                   value={taskData.progress}
@@ -174,11 +214,11 @@ export default function CreateTask({ onTaskCreated, email }) {
 
                 <TextField
                   label="Due Date"
-                  name="dueDate"
+                  name="due_date"
                   type="date"
                   InputLabelProps={{ shrink: true }}
                   fullWidth
-                  value={taskData.dueDate}
+                  value={taskData.due_date}
                   onChange={handleInputChange}
                 />
                 <Button variant="contained" color="primary" type="submit">
