@@ -28,8 +28,8 @@ export default function CreateTask({
   const [taskData, setTaskData] = React.useState({
     title: "",
     description: "",
-    status: 0,
-    priority: 0,
+    status: "",
+    priority: "",
     progress: 0,
     due_date: "",
     email: email,
@@ -63,8 +63,8 @@ export default function CreateTask({
       setTaskData({
         title: "",
         description: "",
-        status: 0,
-        priority: 0,
+        status: "",
+        priority: "",
         progress: 0,
         due_date: "",
         email: email,
@@ -167,6 +167,7 @@ export default function CreateTask({
                   fullWidth
                   value={taskData.title}
                   onChange={handleInputChange}
+                  required
                 />
                 <TextField
                   label="Description"
@@ -178,7 +179,7 @@ export default function CreateTask({
                   value={taskData.description}
                   onChange={handleInputChange}
                 />
-                <FormControl fullWidth>
+                <FormControl fullWidth required>
                   <InputLabel>Status</InputLabel>
                   <Select
                     value={taskData.status}
@@ -190,7 +191,7 @@ export default function CreateTask({
                     <MenuItem value={3}>Completed</MenuItem>
                   </Select>
                 </FormControl>
-                <FormControl fullWidth>
+                <FormControl fullWidth required>
                   <InputLabel>Priority</InputLabel>
                   <Select
                     value={taskData.priority}
@@ -211,6 +212,7 @@ export default function CreateTask({
                   valueLabelDisplay="auto"
                   min={0}
                   max={100}
+                  required
                 />
 
                 <TextField
