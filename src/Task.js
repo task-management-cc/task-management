@@ -107,13 +107,14 @@ export default function Task(props) {
       .delete(apiUrl + `/tasks/${task_id}`)
       .then(() => {
         handleOpenSnackbar();
-        if (onDelete) {
-          onDelete();
-        }
+        setTimeout(() => {
+          if (onDelete) {
+            onDelete();
+          }
+        }, 500);
       })
       .catch((error) => {
         console.error("Error deleting task:", error);
-        // Handle error
       });
 
     setOpenDeleteDialog(false);
@@ -229,7 +230,7 @@ export default function Task(props) {
       </Dialog>
       <Snackbar
         open={openSnackbar}
-        autoHideDuration={6000}
+        autoHideDuration={10000}
         onClose={handleCloseSnackbar}
         message="Task successfully deleted"
       />

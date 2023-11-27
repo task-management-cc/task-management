@@ -8,6 +8,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Header from "./Header";
 import logo from "./logo.jpg";
 import TaskManager from "./TaskManager";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import Profile from "./Profile";
+import MyAccount from "./MyAccount";
 
 Amplify.configure(awsExports);
 
@@ -25,21 +28,37 @@ const components = {
 
 export default function App() {
   return (
-    <Authenticator
-      components={components}
-      signUpAttributes={["name"]}
-      loginMechanisms={["email"]}
-    >
-      {({ signOut, user }) => (
-        <React.Fragment>
-          <CssBaseline />
-          <Header logout={signOut} />
-          <Container>
-            <h1>Hello, {user.attributes.name}</h1>
-            <TaskManager email={user.username} />
-          </Container>
-        </React.Fragment>
-      )}
-    </Authenticator>
+    <BrowserRouter>
+      <Authenticator
+        components={components}
+        signUpAttributes={["name"]}
+        loginMechanisms={["email"]}
+      >
+        {({ signOut, user }) => (
+          <React.Fragment>
+            <CssBaseline />
+            <Header logout={signOut} />
+            <Switch>
+              <Route
+                exact
+                path="/"
+                render={() => (
+                  <Container>
+                    {console.log(user)}
+                    <h1>Hello, {user.attributes.name}</h1>
+                    <TaskManager uid={user.attributes.sub} />
+                  </Container>
+                )}
+              />
+              <Route path="/profile" component={Profile} />
+              <Route
+                path="/my-account"
+                render={() => <MyAccount uid={user.attributes.sub} />}
+              />
+            </Switch>
+          </React.Fragment>
+        )}
+      </Authenticator>
+    </BrowserRouter>
   );
 }

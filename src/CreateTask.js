@@ -20,7 +20,7 @@ import axios from "axios";
 
 export default function CreateTask({
   onTaskCreated,
-  email,
+  uid,
   task = null,
   isEditMode = false,
 }) {
@@ -32,7 +32,7 @@ export default function CreateTask({
     priority: "",
     progress: 0,
     due_date: "",
-    email: email,
+    uid: uid,
   });
 
   React.useEffect(() => {
@@ -44,11 +44,11 @@ export default function CreateTask({
         priority: task.priority,
         progress: task.progress,
         due_date: task.due_date ? task.due_date.split("T")[0] : "",
-        email: email,
+        uid: uid,
       });
       setOpen(true); // Open the dialog in edit mode
     }
-  }, [task, isEditMode, email]);
+  }, [task, isEditMode, uid]);
 
   const [scroll, setScroll] = React.useState("paper");
 
@@ -67,7 +67,7 @@ export default function CreateTask({
         priority: "",
         progress: 0,
         due_date: "",
-        email: email,
+        uid: uid,
       });
     }
     if (onTaskCreated) {
@@ -107,7 +107,7 @@ export default function CreateTask({
         priority: 0,
         progress: 0,
         due_date: "",
-        email: email,
+        uid: uid,
       });
       handleClose();
       if (onTaskCreated) {

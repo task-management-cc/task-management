@@ -3,7 +3,7 @@ import axios from "axios";
 import Tasks from "./Tasks";
 import CreateTask from "./CreateTask";
 
-function TaskManager({ email }) {
+function TaskManager({ uid }) {
   const [tasks, setTasks] = useState([]);
   const [editTask, setEditTask] = useState(null);
 
@@ -13,7 +13,7 @@ function TaskManager({ email }) {
 
   const fetchTasks = () => {
     const apiUrl = process.env.REACT_APP_API_URL;
-    const url = apiUrl + `/tasks?email=${encodeURIComponent(email)}`;
+    const url = apiUrl + `/tasks?uid=${uid}`;
     axios
       .get(url)
       .then((response) => {
@@ -36,13 +36,13 @@ function TaskManager({ email }) {
       {editTask ? (
         <CreateTask
           onTaskCreated={handleTaskUpdate}
-          email={email}
+          uid={uid}
           task={editTask}
           isEditMode={true}
         />
       ) : (
         <>
-          <CreateTask onTaskCreated={fetchTasks} email={email} />
+          <CreateTask onTaskCreated={fetchTasks} uid={uid} />
           <Tasks
             tasks={tasks}
             onDelete={handleTaskUpdate}
