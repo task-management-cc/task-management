@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "taskmanagement9c21df51_identitypool_9c21df51",
+    "identityPoolName": "taskmanagementcb31ecfb_identitypool_cb31ecfb",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "taskma9c21df51",
-    "userPoolName": "taskmanagement9c21df51_userpool_9c21df51",
+    "resourceNameTruncated": "taskmacb31ecfb",
+    "userPoolName": "taskmanagementcb31ecfb_userpool_cb31ecfb",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -21,8 +21,7 @@
     "passwordPolicyCharacters": [],
     "requiredAttributes": [
       "email",
-      "name",
-      "preferred_username"
+      "name"
     ],
     "aliasAttributes": [],
     "userpoolClientGenerateSecret": false,
@@ -33,20 +32,18 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "taskma9c21df51_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "taskmacb31ecfb_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "9c21df51",
-    "resourceName": "taskmanagement9c21df51",
+    "sharedId": "cb31ecfb",
+    "resourceName": "taskmanagementcb31ecfb",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
-    "triggers": {
-      "CustomMessage": [
-        "verification-link"
-      ]
-    },
+    "usernameAttributes": [
+      "email"
+    ],
+    "triggers": {},
     "userPoolGroupList": [],
     "serviceName": "Cognito",
-    "verificationBucketName": "taskmanagement9c21df51verificationbucket",
     "usernameCaseSensitive": false,
     "useEnabledMfas": true
   }

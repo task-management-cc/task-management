@@ -1,6 +1,6 @@
 {
   "auth": {
-    "taskmanagement4499fe5f": {
+    "taskmanagementcb31ecfb": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -13,10 +13,13 @@
           "passwordPolicyMinLength": 8
         },
         "signupAttributes": [
-          "EMAIL"
+          "EMAIL",
+          "NAME"
         ],
         "socialProviders": [],
-        "usernameAttributes": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "verificationMechanisms": [
           "EMAIL"
         ]
