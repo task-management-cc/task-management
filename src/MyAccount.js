@@ -45,7 +45,7 @@ export default function MyAccount(props) {
         This page allows you to delete your account. Deleting your account will
         delete all of your tasks and cannot be undone.
       </p>
-      <Button onClick={confirmAndDeleteUser} variant="contained">
+      <Button onClick={confirmAndDeleteUser} variant="contained" color="error">
         Delete My Account
       </Button>
     </Container>
