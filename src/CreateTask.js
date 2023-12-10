@@ -156,7 +156,7 @@ export default function CreateTask({
               <CloseIcon />
             </IconButton>
             <Typography id="create-task-modal" variant="h6" component="h2">
-              Create New Task
+              {isEditMode ? "Update Task" : "Create New Task"}
             </Typography>
             <form id="create-task-form" onSubmit={handleSubmit}>
               <Stack spacing={2} marginTop={2}>
