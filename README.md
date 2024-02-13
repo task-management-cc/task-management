@@ -1,70 +1,49 @@
-# Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## System Architecture
 
-## Available Scripts
+<img width="396" alt="image" src="https://github.com/task-management-cc/task-management/assets/87371122/c5e9bcd7-057a-4142-869e-93c1b66c0d6e">
 
-In the project directory, you can run:
 
-### `npm start`
+## Steps taken to create the application
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+1. Requirement Gathering
+Feature Identification: Clearly outline the core features such as user registration, login, task creation, editing, deletion, etc.
+User Experience Consideration: Understand how users will interact with the application to ensure a seamless experience.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+2. AWS Service Setup
+RDS with PostgreSQL:
+Initialize and configure the RDS instance.
+Set up security groups for controlled access.
+EC2 for Node.js Backend:
+Launch and configure the EC2 instance.
+Set up necessary security groups and network settings.
+S3 for Hosting React Application:
+Create and configure an S3 bucket for web hosting.
+Set up permissions and access policies.
+IAM User for Cognito:
+Create an IAM user with the necessary permissions for Cognito.
+Configure Cognito in AWS Amplify for authentication.
 
-### `npm test`
+3. Backend Development (Node.js)
+API Development:
+Design and develop RESTful APIs for task management.
+Database Integration:
+Establish a connection to the RDS PostgreSQL database.
+Design and create tables for storing tasks.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+4. Frontend Development (React)
+Amplify for Authentication:
+Integrate AWS Amplify for user authentication.
+React Component Development:
+Develop React components for tasks viewing, creating, editing, and deleting.
+Implement state management for dynamic user interfaces.
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+5. Deployment
+Deploy Backend to EC2:
+Transfer Node.js application to the EC2 instance.
+Install Node.js, npm, and any dependencies.
+Configure the application to communicate with the RDS instance.
+Deploy Frontend to S3:
+Build the React application.
+Upload the build files to the S3 bucket.
+Configure bucket for web hosting and set proper access policies
